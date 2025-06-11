@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Vérifier un certificat - PKI Manager{% endblock %}
+
+{% block content %}
+<style>
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #bdc3c7 !important; /* Couleur gris clair */
+        opacity: 0.8 !important; /* Légère transparence */
+    }
+    
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #bdc3c7 !important;
+    }
+    
+    ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #bdc3c7 !important;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="fa-solid fa-shield-check text-success me-2"></i> Vérifier un certificat</h2>
+    <a href="/" class="btn btn-link"><i class="fa-solid fa-arrow-left me-1"></i> Retour</a>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="form-container">
+            <form method="post" novalidate>
+                <div class="mb-4">
+                    <label for="cert_name" class="form-label fw-bold">Nom du certificat *</label>
+                    <input type="text" class="form-control form-control-lg" id="cert_name" name="cert_name" required placeholder="exemple : brad" />
+                </div>
+                
+                <button type="submit" class="btn btn-success btn-lg btn-icon">
+                    <i class="fa-solid fa-check"></i> Vérifier le certificat
+                </button>
+            </form>
+        </div>
+        
+        {% if message %}
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">
+                <i class="fa-solid fa-circle-check me-2"></i> Résultat de la vérification
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class="fa-solid fa-check-circle me-2 fs-4"></i>
+                    <div>
+                        <h5 class="mb-1">{{ message }}</h5>
+                        <p class="mb-0">{{ output }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3 class="card-title text-success"><i class="fa-solid fa-circle-info me-2"></i> Pourquoi vérifier ?</h3>
+                <p class="card-text">La vérification d'un certificat confirme sa validité et son authenticité. Un certificat non vérifié n'est pas considéré comme valide dans le système.</p>
+                <ul class="list-group list-group-flush bg-transparent">
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-shield-halved text-success me-2"></i> Confirme la validité du certificat
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-user-shield text-info me-2"></i> Garantit l'authenticité du certificat
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-ban text-danger me-2"></i> Nécessaire pour l'utilisation sécurisée
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

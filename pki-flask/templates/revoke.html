@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Révoquer un certificat - PKI Manager{% endblock %}
+
+{% block content %}
+
+<style>
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #bdc3c7 !important; /* Couleur gris clair */
+        opacity: 0.8 !important; /* Légère transparence */
+    }
+    
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #bdc3c7 !important;
+    }
+    
+    ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #bdc3c7 !important;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="fa-solid fa-ban text-danger me-2"></i> Révoquer un certificat</h2>
+    <a href="/" class="btn btn-link"><i class="fa-solid fa-arrow-left me-1"></i> Retour</a>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="form-container">
+            <div class="alert alert-warning">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                La révocation d'un certificat est une action irréversible. Assurez-vous de bien comprendre les conséquences.
+            </div>
+            
+            <form method="post" novalidate>
+                <div class="mb-4">
+                    <label for="revoke_cert_name" class="form-label fw-bold">Nom du certificat à révoquer *</label>
+                    <input type="text" class="form-control form-control-lg" id="revoke_cert_name" name="cert_name" required placeholder="Entrez le nom du certificat" />
+                </div>
+                
+                
+                
+                <button type="submit" class="btn btn-danger btn-lg btn-icon">
+                    <i class="fa-solid fa-fire"></i> Révoquer le certificat
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3 class="card-title text-danger"><i class="fa-solid fa-circle-info me-2"></i> À propos de la révocation</h3>
+                <p class="card-text">La révocation d'un certificat l'invalide immédiatement avant sa date d'expiration prévue.</p>
+                <ul class="list-group list-group-flush bg-transparent">
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-warning text-danger me-2"></i> Action irréversible
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-list text-warning me-2"></i> Ajouté à la liste de révocation (CRL)
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-globe text-info me-2"></i> Propagation dans les 24h
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-rotate-left text-secondary me-2"></i> Nécessite un nouveau certificat
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

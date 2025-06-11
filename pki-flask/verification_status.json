@@ -1,0 +1,14 @@
+{
+  "contrat": {
+    "verified": true,
+    "verification_date": "2025-06-11 22:19"
+  },
+  "contract": {
+    "verified": false,
+    "verification_date": ""
+  },
+  "badr": {
+    "verified": false,
+    "verification_date": ""
+  }
+}

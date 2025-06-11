@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer un certificat - PKI Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="fa-solid fa-trash text-warning me-2"></i> Supprimer un certificat</h2>
+    <a href="/" class="btn btn-link"><i class="fa-solid fa-arrow-left me-1"></i> Retour</a>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-header bg-warning text-white">
+                <i class="fa-solid fa-list me-2"></i> Certificats disponibles
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Créé le</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cert in available_certs %}
+                            <tr>
+                                <td>{{ cert.common_name }}</td>
+                                <td>{{ cert.creation_date }}</td>
+                                <td>
+                                    <form method="post" style="display:inline;">
+                                        <input type="hidden" name="cert_name" value="{{ cert.common_name }}">
+                                        <button type="submit" class="btn btn-sm btn-warning">
+                                            <i class="fa-solid fa-trash me-1"></i> Supprimer
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center">Aucun certificat disponible</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3 class="card-title text-warning"><i class="fa-solid fa-circle-info me-2"></i> Attention</h3>
+                <p class="card-text">La suppression d'un certificat est irréversible. Le certificat et sa clé privée seront définitivement supprimés.</p>
+                <div class="alert alert-danger">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                    Cette action ne peut pas être annulée.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

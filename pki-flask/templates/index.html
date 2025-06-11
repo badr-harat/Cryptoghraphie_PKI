@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de bord - PKI Manager{% endblock %}
+
+{% block content %}
+<div id="home-page">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Tableau de bord</h2>
+        <div class="text-muted">
+            <i class="fa-solid fa-calendar me-2"></i>
+            <span id="current-date">{{ current_date }}</span>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-4 col-6 mb-3">
+            <div class="card stat-card">
+                <div class="cert-icon text-primary">
+                    <i class="fa-solid fa-certificate"></i>
+                </div>
+                <div class="stat-number">{{ stats.total_certs }}</div>
+                <div class="stat-label">Certificats générés</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 mb-3">
+            <div class="card stat-card">
+                <div class="cert-icon text-success">
+                    <i class="fa-solid fa-check-circle"></i>
+                </div>
+                <div class="stat-number">{{ stats.verified_certs }}</div>
+                <div class="stat-label">Certificats vérifiés</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 mb-3">
+            <div class="card stat-card">
+                <div class="cert-icon text-danger">
+                    <i class="fa-solid fa-ban"></i>
+                </div>
+                <div class="stat-number">{{ stats.revoked_certs }}</div>
+                <div class="stat-label">Certificats révoqués</div>
+            </div>
+        </div>
+    </div>
+    
+    <h3 class="mb-4">Actions disponibles</h3>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col">
+            <div class="card nav-card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="card-icon bg-icon-primary">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <h3 class="card-title">Générer un certificat</h3>
+                    <p class="card-text flex-grow-1">Créez un certificat avec un nom commun (CN) donné.</p>
+                    <a href="/generate" class="btn btn-primary mt-auto btn-icon" aria-label="Générer un certificat">
+                        <i class="fa-solid fa-certificate"></i> Générer
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card nav-card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="card-icon bg-icon-success">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 class="card-title">Vérifier un certificat</h3>
+                    <p class="card-text flex-grow-1">Validez un certificat signé avec la chaîne d'autorité.</p>
+                    <a href="/verify" class="btn btn-success mt-auto btn-icon" aria-label="Vérifier un certificat">
+                        <i class="fa-solid fa-shield-check"></i> Vérifier
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card nav-card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="card-icon bg-icon-danger">
+                        <i class="fa-solid fa-ban"></i>
+                    </div>
+                    <h3 class="card-title">Révoquer un certificat</h3>
+                    <p class="card-text flex-grow-1">Annulez l'autorisation d'un certificat émis précédemment.</p>
+                    <a href="/revoke" class="btn btn-danger mt-auto btn-icon" aria-label="Révoquer un certificat">
+                        <i class="fa-solid fa-fire"></i> Révoquer
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card nav-card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="card-icon bg-icon-secondary">
+                        <i class="fa-solid fa-download"></i>
+                    </div>
+                    <h3 class="card-title">Télécharger un certificat</h3>
+                    <p class="card-text flex-grow-1">Récupérez le fichier PEM d'un certificat généré.</p>
+                    <a href="/download" class="btn btn-secondary mt-auto btn-icon" aria-label="Télécharger un certificat">
+                        <i class="fa-solid fa-file-arrow-down"></i> Télécharger
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card nav-card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="card-icon bg-icon-warning">
+                        <i class="fa-solid fa-trash"></i>
+                    </div>
+                    <h3 class="card-title">Supprimer un certificat</h3>
+                    <p class="card-text flex-grow-1">Supprimez définitivement un certificat existant.</p>
+                    <a href="/delete" class="btn btn-warning mt-auto btn-icon" aria-label="Supprimer un certificat">
+                        <i class="fa-solid fa-trash"></i> Supprimer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-5">
+        <h3 class="mb-4">Certificats récents</h3>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tbody>
+                            {% for cert in recent_certs %}
+                            <tr>
+                                <td>{{ cert.common_name }}</td>
+                                <td>{{ cert.creation_date }}</td>
+                                <td>
+                                    {% if cert.revoked %}
+                                    <span class="badge bg-danger">Révoqué</span>
+                                    {% elif cert.verified %}
+                                    <span class="badge bg-success">Vérifié</span>
+                                    {% else %}
+                                    <span class="badge bg-warning">Non vérifié</span>
+                                    {% endif %}
+                                </td>
+                                
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">Aucun certificat disponible</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mettre à jour la date actuelle
+    const now = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('current-date').textContent = now.toLocaleDateString('fr-FR', options);
+</script>
+{% endblock %}

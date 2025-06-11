@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Générer un certificat - PKI Manager{% endblock %}
+
+{% block content %}
+<style>
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #bdc3c7 !important; /* Couleur gris clair */
+        opacity: 0.8 !important; /* Légère transparence */
+    }
+    
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #bdc3c7 !important;
+    }
+    
+    ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #bdc3c7 !important;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="fa-solid fa-plus text-primary me-2"></i> Générer un certificat</h2>
+    <a href="/" class="btn btn-link"><i class="fa-solid fa-arrow-left me-1"></i> Retour</a>
+</div>
+
+<!-- Section pour afficher les messages flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="mb-4">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} d-flex align-items-center" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="form-container">
+            <form method="post" novalidate>
+                <div class="mb-4">
+                    <label for="common_name" class="form-label fw-bold">Nom commun (CN) *</label>
+                    <input type="text" class="form-control form-control-lg" id="common_name" name="common_name" required placeholder="exemple.com" />
+                    <div class="form-text">Le nom de domaine principal pour lequel le certificat est émis.</div>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg btn-icon">
+                        <i class="fa-solid fa-certificate"></i> Générer le certificat
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary btn-lg">Réinitialiser</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3 class="card-title text-primary"><i class="fa-solid fa-circle-info me-2"></i> Informations</h3>
+                <p class="card-text">La génération d'un certificat SSL/TLS crée une paire de clés cryptographiques qui authentifie l'identité d'un site web.</p>
+                <ul class="list-group list-group-flush bg-transparent">
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-key text-primary me-2"></i> La clé privée doit rester secrète
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-shield text-success me-2"></i> Protège les données en transit
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fa-solid fa-lock text-warning me-2"></i> Nécessaire pour le protocole HTTPS
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
